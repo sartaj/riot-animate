@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/sartaj/riot-animate/issues"
   },
-  "homepage": "https://github.com/sartaj/riot-animate"
+  "homepage": "https://github.com/sartaj/riot-animate",
+  "dependencies": {
+    "riot": "^2.2.3"
+  }
 }
