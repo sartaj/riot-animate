@@ -2,9 +2,11 @@
   "name": "riot-animate",
   "version": "0.1.0",
   "description": "Animate Riot",
-  "main": "index.js",
+  "main": "riotAnimate.min.js",
   "scripts": {
-    "test": ""
+    "test": "",
+    "build": "browserify riotAnimate.js -s riotAnimate | uglifyjs > riotAnimate.min.js",
+    "watch": "watchify riotAnimate.js -s riotAnimate -o riotAnimate.min.js"
   },
   "repository": {
     "type": "git",
@@ -16,7 +18,7 @@
     "url": "https://github.com/sartaj/riot-animate/issues"
   },
   "homepage": "https://github.com/sartaj/riot-animate",
-  "dependencies": {
+  "devDependencies": {
     "riot": "^2.2.3"
   }
 }

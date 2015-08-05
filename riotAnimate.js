@@ -49,75 +49,25 @@ var OptsAnimateMixin = {
 
         this.on('mount', function() {
 
-            // Get attributes you want to animate
-            this.animatedDomElements = this.root.querySelectorAll('[animate]');
-
-            for (var x = 0; x < this.animatedDomElements.length; x++) {
-
-                // Item to add animations to
-                var item = this.animatedDomElements[x];
-
-                // Get attribute string
-                var attributeToAnimate = item.getAttribute('animate-enter');
-
-                if (!attributeToAnimate) {
-                    var attributeToAnimate = item.getAttribute('animate');
-                }
-
-                // Get all space separated classes
-                this.enterClasses = attributeToAnimate.split(' ');
-
-                // Add those classes to this item
-                this.enterClasses.forEach(function(classToAnimate) {
-                    item.classList.add(classToAnimate);
-                });
-
-                var delay = item.getAttribute('animate-delay');
-                if (delay) {
-                    item.style.animationDelay = delay;
-                    item.style.transitionDelay = delay;
-                }
-
-                var duration = item.getAttribute('animate-duration');
-                if (duration) {
-                    item.style.animationDuration = duration;
-                    item.style.transitionDuration = duration;
-                }
-
-                // Add initial enter animation class
-                item.classList.add('riot-enter');
-
-            };
-
-            // Add animation for enter after 1 frame
-            window.requestAnimationFrame(function() {
-                for (var x = 0; x < this.animatedDomElements.length; x++) {
-                    var item = this.animatedDomElements[x];
-                    // animate.css support
-                    item.classList.add('animated');
-                    item.classList.add('riot-animate');
-                    item.classList.add('riot-enter-active');
-                }
-            }.bind(this));
+            createAnimation.call(this, 'enter');
 
             var animationEnded = function(e) {
 
                 var item = e.target;
 
-                if(this.enterClasses) {
-                  // Remove animation classes
-                  this.enterClasses.forEach(function(classToAnimate) {
-                      item.classList.remove(classToAnimate);
-                  });
+                if (this.enterClasses) {
+                    this.enterClasses.forEach(function(classToAnimate) {
+                        item.classList.remove(classToAnimate);
+                    });
                 }
 
-                if(this.leaveClasses) {
-                  this.leaveClasses.forEach(function(classToAnimate) {
-                      item.classList.remove(classToAnimate);
-                  });                  
+                if (this.leaveClasses) {
+                    this.leaveClasses.forEach(function(classToAnimate) {
+                        item.classList.remove(classToAnimate);
+                    });
                 }
 
-                // animate.css support
+                // remove animate.css class
                 item.classList.remove('animated');
 
                 // Remove all other classes
@@ -154,49 +104,7 @@ var OptsAnimateMixin = {
     },
     animatedUnmount: function() {
 
-        for (var x = 0; x < this.animatedDomElements.length; x++) {
-
-            // Item to add animations to
-            var item = this.animatedDomElements[x];
-
-            // Get attribute string
-            var attributeToAnimate = item.getAttribute('animate-leave');
-
-            if (!attributeToAnimate) {
-                var attributeToAnimate = item.getAttribute('animate');
-            }
-
-            // Get all space separated classes
-            this.leaveClasses = attributeToAnimate.split(' ');
-
-            // Add those classes to this item
-            this.leaveClasses.forEach(function(classToAnimate) {
-                item.classList.add(classToAnimate);
-            });
-
-            // animate.css support
-            item.classList.add('animated');
-
-            var delay = item.getAttribute('animate-delay');
-            if (delay) {
-                item.style.animationDelay = delay;
-                item.style.transitionDelay = delay;
-            }
-
-            // Add initial enter animation class
-            item.classList.add('riot-leave');
-
-        }
-
-        // Add animation for enter after 1 frame
-        window.requestAnimationFrame(function() {
-            for (var x = 0; x < this.animatedDomElements.length; x++) {
-                // Item to add animations to
-                var item = this.animatedDomElements[x];
-                item.classList.add('riot-animate');
-                item.classList.add('riot-leave-active');
-            }
-        }.bind(this));
+        createAnimation.call(this, 'leave');
 
         var waitFor = 1;
 
@@ -215,5 +123,58 @@ var OptsAnimateMixin = {
 
     }
 };
+
+function createAnimation(ANIMATION_NAME) {
+
+    // Get attributes you want to animate
+    this.animatedDomElements = this.root.querySelectorAll('[animate]');
+
+    for (var x = 0; x < this.animatedDomElements.length; x++) {
+
+        // Item to add animations to
+        var item = this.animatedDomElements[x];
+
+        // Get attribute string
+        var attributeToAnimate = item.getAttribute('animate-' + ANIMATION_NAME);
+
+        if (!attributeToAnimate) {
+            var attributeToAnimate = item.getAttribute('animate');
+        }
+
+        // Get all space separated classes
+        this.enterClasses = attributeToAnimate.split(' ');
+
+        // Add those classes to this item
+        this.enterClasses.forEach(function(classToAnimate) {
+            item.classList.add(classToAnimate);
+        });
+
+        var delay = item.getAttribute('animate-delay');
+        if (delay) {
+            item.style.animationDelay = delay;
+            item.style.transitionDelay = delay;
+        }
+
+        var duration = item.getAttribute('animate-duration');
+        if (duration) {
+            item.style.animationDuration = duration;
+            item.style.transitionDuration = duration;
+        }
+
+        // Add initial enter animation class
+        item.classList.add('riot-' + ANIMATION_NAME);
+    }
+
+    // Add animation for enter after 1 frame
+    window.requestAnimationFrame(function() {
+        for (var x = 0; x < this.animatedDomElements.length; x++) {
+            var item = this.animatedDomElements[x];
+            // animate.css support
+            item.classList.add('animated');
+            item.classList.add('riot-animate');
+            item.classList.add('riot-' + ANIMATION_NAME + '-active');
+        }
+    }.bind(this));
+}
 
 module.exports = OptsAnimateMixin;
