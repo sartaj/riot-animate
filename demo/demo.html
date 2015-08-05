@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <timer></timer>
+    <script type="riot/tag">
+
+		<timer>
+
+		  <p>Seconds Elapsed: { time }</p>
+
+		  this.time = opts.start || 0
+
+		  tick() {
+		    this.update({ time: ++this.time })
+		  }
+
+		  var timer = setInterval(this.tick, 1000)
+
+		  this.on('unmount', function() {
+		    clearInterval(timer)
+		  })
+
+		</timer>
+
+    </script>
+    <script src="../node_modules/riot/riot+compiler.js"></script>
+    <script>
+    riot.mount('timer', {
+        start: 0
+    })
+    </script>
+</body>
+
+</html>
