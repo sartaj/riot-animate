@@ -25,46 +25,56 @@
       }
       code {
         font-family: sans-serif;
-        font-size: 1.5rem;
+        font-size: 1rem;
         font-weight: 300;
       }
 
+      .riot-animate.fade{
+        transition:0.5s linear all;
+      }
+      .riot-enter.fade,
+      .riot-leave.riot-leave-active.fade  {
+        opacity:0;
+      }
+      .riot-enter.riot-enter-active.fade ,
+      .riot-leave.fade{
+        opacity:1;
+      }
+
     </style>
+
+    <div class="card">
+      <code>
+        These cards are being animated by animate.css. you can easily use animate.css to to have animate, animate-enter, and animate-leave, along with adding animate-delay and animate-duration. <br /><br />
+        In addition, you can have an animation CSS class and use an ngAnimation style system, linking to 'riot-enter', 'riot-enter-active', 'riot-leave', and 'riot-leave-active'
+      </code>
+    </div>
+
     <timer></timer>
     <script src="../riotAnimate.min.js"></script>
     <script type="riot/tag">
+
         <timer>
-          <div class="card">
-          <code>
-            These cards are being animated by animate.css. you can easily use animate.css to to have animate, animate-enter, and animate-leave, along with adding animate-delay and animate-duration. <br /><br />
-            In addition, you can have an animation CSS class and use an ngAnimation style system, linking to 'riot-enter', 'riot-enter-active', 'riot-leave', and 'riot-leave-active'
-            </code>
+
+          <div class="card" animate="fade" animate-duration="300ms" animate-delay="1000ms">
+            <p class="">Using ngAnimate style classes</p>
           </div>
+
           <div class="card" each="{item, i in items}" animate="zoomIn" animate-leave="zoomOut" animate-duration="300ms" animate-delay="{i*20}ms">
-            <p class="">This is a card</p>
+            <p class="">Using animate.css</p>
           </div>
-          this.time = opts.start || 0
 
           this.items = opts.items;
 
-          // tick() {
-          //   this.update({ time: ++this.time })
-          // }
-
-          // var timer = setInterval(this.tick, 1000)
-
-          this.on('unmount', function() {
-            // clearInterval(timer)
-          });
-
-            setTimeout(function(){
-              this.animatedUnmount();
-            }.bind(this),3000);
+          setTimeout(function(){
+            this.animatedUnmount();
+          }.bind(this),3000);
 
           this.mixin(riotAnimate);
 
         </timer>
     </script>
+
     <script src="../node_modules/riot/riot+compiler.js"></script>
     <script>
     var items = [];

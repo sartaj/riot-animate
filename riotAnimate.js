@@ -1,4 +1,12 @@
 /**
+ * Animate Riot v2 Components
+ * @author Sartaj
+ * @contributor Nate Chapman
+ * @license MIT 2015
+ */
+
+
+/**
  * Provides requestAnimationFrame in a cross browser way.
  * @author paulirish / http://paulirish.com/
  */
@@ -21,6 +29,9 @@ if (!window.requestAnimationFrame) {
 
 }
 
+/**
+ * Cross browser animation checks
+ */
 var pfx = ["webkit", "moz", "MS", "o", ""];
 
 function on(element, type, callback) {
@@ -30,6 +41,9 @@ function on(element, type, callback) {
     }
 }
 
+/**
+ * The Animate Mixin
+ */
 var OptsAnimateMixin = {
     init: function() {
 
