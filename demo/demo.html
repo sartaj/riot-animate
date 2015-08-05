@@ -7,14 +7,27 @@
 
 <body>
     <style>
-      .fade.riot-enter {
+/*      .fade {
+        display:block;
+      }*/
+      .riot-animate .fade{
         transition:0.5s linear all;
+      }
+
+      .riot-enter .fade  {
+        transition:1s linear all;
         opacity:0;
       }
 
-      .fade.riot-enter.riot-enter-active {
+      .riot-enter.riot-enter-active .fade ,
+      .fade.riot-leave {
           opacity:1;
       }
+
+      .riot-leave.riot-leave-active .fade {
+          opacity:0;
+      }
+
     </style>
     <timer></timer>
     <script>
@@ -56,18 +69,16 @@
 
             this.on('mount', function() {
                 console.log('mounted', this);
-
+                self.root.classList.add('riot-enter');
                 window.requestAnimationFrame(function() {
-                    self.root.classList.add('riot-enter');
-                });
-
-                window.requestAnimationFrame(function() {
+                    self.root.classList.add('riot-animate');
                     self.root.classList.add('riot-enter-active');
                 });
 
-                on(this.root, "AnimationEnd", function() {
+                this.root.addEventListener("transitionend", function() {
                     self.root.classList.remove('riot-enter-active');
                     self.root.classList.remove('riot-enter');
+                    self.root.classList.remove('riot-animate');
                 }, false);
 
             });
@@ -92,8 +103,8 @@
     };
     </script>
     <script type="riot/tag">
-        <timer class="fade">
-          <p>Seconds Elapsed: { time }</p>
+        <timer>
+          <p class="fade">Seconds Elapsed: { time }</p>
 
           this.time = opts.start || 0
 
@@ -107,9 +118,9 @@
             clearInterval(timer)
           });
 
-            setTimeout(function(){
-              this.unmount('timer');
-            }.bind(this),3000);
+            // setTimeout(function(){
+            //   this.unmount('timer');
+            // }.bind(this),3000);
 
           this.mixin(OptsAnimateMixin);
         </timer>
