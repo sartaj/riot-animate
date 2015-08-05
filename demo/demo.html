@@ -7,8 +7,19 @@
 
 <body>
     <timer></timer>
+    <script>
+    	var OptsAnimateMixin = {
+    		init: function() {
+    			this.on('mount', function() {
+    				console.log('mounted')
+    			});
+    			this.on('unmount', function() {
+    				console.log('unmounted')
+    			});
+    		}
+    	};
+    </script>
     <script type="riot/tag">
-
 		<timer>
 
 		  <p>Seconds Elapsed: { time }</p>
@@ -23,7 +34,13 @@
 
 		  this.on('unmount', function() {
 		    clearInterval(timer)
-		  })
+		  });
+
+		    setTimeout(function(){
+			    this.unmount('timer');
+		    }.bind(this),3000);
+
+		  this.mixin(OptsAnimateMixin);
 
 		</timer>
 
@@ -32,7 +49,7 @@
     <script>
     riot.mount('timer', {
         start: 0
-    })
+    });
     </script>
 </body>
 
