@@ -27,7 +27,10 @@ In addition, you can easily use animate.css and use the attributes `animate`, `a
 
 ```
 
-```javascript
+```html
+	    <timer></timer>
+
+	    <script type="riot/tag">
 
         <timer>
           // This is using a ngAnimate style 'enter' 'leave' css class
@@ -48,5 +51,18 @@ In addition, you can easily use animate.css and use the attributes `animate`, `a
           }.bind(this),3000);
 
           this.mixin(riotAnimate);
+
+        </timer>
+	    </script>
+
+	    <script>
+	    var items = [];
+	    for(var x=0;x<100;x++) {
+	      items.push({time: 'time'})
+	    }
+	    riot.mount('timer', {
+	        items: items
+	    });
+	    </script>
 
 ```
