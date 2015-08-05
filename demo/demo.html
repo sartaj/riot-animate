@@ -2,55 +2,59 @@
 <html>
 
 <head>
-    <title></title>
+  <title></title>
 </head>
 
 <body>
-    <timer></timer>
-    <script>
-    	var OptsAnimateMixin = {
-    		init: function() {
-    			this.on('mount', function() {
-    				console.log('mounted')
-    			});
-    			this.on('unmount', function() {
-    				console.log('unmounted')
-    			});
-    		}
-    	};
-    </script>
-    <script type="riot/tag">
-		<timer>
+  <timer></timer>
+  <script>
+    var OptsAnimateMixin = {
+      init: function() {
+        var self = this
 
-		  <p>Seconds Elapsed: { time }</p>
+        this.on('mount', function() {
+          console.log('mounted', this);
 
-		  this.time = opts.start || 0
+          this.root.addEventListener("animationstart", function() {
+            console.log('dude the animation started');
+          }, false);
 
-		  tick() {
-		    this.update({ time: ++this.time })
-		  }
+          window.requestAnimationFrame(function() {
+            self.root.classList.add('boo-ya-enter');
+          });
+          window.requestAnimationFrame(function() {
+            self.root.classList.add('boo-ya-enter-active');
+          });
+        });
 
-		  var timer = setInterval(this.tick, 1000)
+        this.on('unmount', function() {
+          console.log('unmounted')
+          window.requestAnimationFrame(function() {
+            self.root.classList.add('boo-ya-leave');
+          });
+          window.requestAnimationFrame(function() {
+            self.root.classList.add('boo-ya-leave-active');
+          });
+        });
+      }
+    };
+  </script>
+  <script type="riot/tag">
+    <timer ranimate>
 
-		  this.on('unmount', function() {
-		    clearInterval(timer)
-		  });
+      <p>Seconds Elapsed: { time }</p>
 
-		    setTimeout(function(){
-			    this.unmount('timer');
-		    }.bind(this),3000);
+      this.time = opts.start || 0 tick() { this.update({ time: ++this.time }) } var timer = setInterval(this.tick, 1000) this.on('unmount', function() { clearInterval(timer) }); setTimeout(function(){ this.unmount('timer'); }.bind(this),3000); this.mixin(OptsAnimateMixin);
 
-		  this.mixin(OptsAnimateMixin);
+    </timer>
 
-		</timer>
-
-    </script>
-    <script src="../node_modules/riot/riot+compiler.js"></script>
-    <script>
+  </script>
+  <script src="../node_modules/riot/riot+compiler.js"></script>
+  <script>
     riot.mount('timer', {
-        start: 0
+      start: 0
     });
-    </script>
+  </script>
 </body>
 
 </html>
