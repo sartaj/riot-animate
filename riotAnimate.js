@@ -5,42 +5,6 @@
  * @license MIT 2015
  */
 
-
-/**
- * Provides requestAnimationFrame in a cross browser way.
- * @author paulirish / http://paulirish.com/
- */
-
-if (!window.requestAnimationFrame) {
-
-    window.requestAnimationFrame = (function() {
-
-        return window.webkitRequestAnimationFrame ||
-            window.mozRequestAnimationFrame ||
-            window.oRequestAnimationFrame ||
-            window.msRequestAnimationFrame ||
-            function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
-
-                window.setTimeout(callback, 1000 / 60);
-
-            };
-
-    })();
-
-}
-
-/**
- * Cross browser animation checks
- */
-var pfx = ["webkit", "moz", "MS", "o", ""];
-
-function on(element, type, callback) {
-    for (var p = 0; p < pfx.length; p++) {
-        if (!pfx[p]) type = type.toLowerCase();
-        element.addEventListener(pfx[p] + type, callback, false);
-    }
-}
-
 /**
  * The Animate Mixin
  */
