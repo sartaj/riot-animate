@@ -3,7 +3,10 @@
 
 <head>
     <title></title>
-    <link rel="stylesheet" href="animate.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.2.2/riot+compiler.min.js"></script>
+    <script src="riotAnimate.min.js"></script>
+    <link rel="stylesheet" href="demo/animate.css">
+
     <script>
 
     /**
@@ -34,20 +37,31 @@
 
 <body>
     <style>
-/*      .fade {
-        display:block;
-      }*/
+
       body {
         background: #EAEAEA;
         font-family: sans-serif;
 
       }
-      .card {
+      .card, .card-main {
         box-shadow: 0 2px 2px rgba(0,0,0,0.3);
-        padding: 1rem;
-        max-width: 700px;
+        padding: 1rem;        
         background: white;
         margin: 1rem;
+      }
+      .card {
+        max-width: 300px;
+        display: inline-block;
+        float:left;
+      }
+      .card-fade {
+        max-width:100%;
+        float: none;
+        background: blue;
+      }
+      .card-fade:after{ 
+        content: '';
+        clear: both;
       }
       code {
         font-family: sans-serif;
@@ -69,20 +83,20 @@
 
     </style>
 
-    <div class="card">
+    <div class="card-main">
       <code>
-        These cards are being animated by animate.css. you can easily use animate.css to to have animate, animate-enter, and animate-leave, along with adding animate-delay and animate-duration. <br /><br />
-        In addition, you can have an animation CSS class and use an ngAnimation style system, linking to 'riot-enter', 'riot-enter-active', 'riot-leave', and 'riot-leave-active'
+        These cards are being animated by animate.css. You can easily use animate.css to have the attributes animate, animate-enter, and animate-leave, along with adding animate-delay and animate-duration. <br /><br />
+
+        In addition, you can have an animation CSS class and use an ngAnimate style system, linking animations to 'riot-enter', 'riot-enter-active', 'riot-leave', and 'riot-leave-active'
       </code>
     </div>
 
     <timer></timer>
-    <script src="../riotAnimate.min.js"></script>
     <script type="riot/tag">
 
         <timer>
 
-          <div class="card" animate="fade" animate-duration="300ms" animate-delay="1000ms">
+          <div class="card card-fade" animate="fade" animate-duration="300ms" animate-delay="1000ms">
             <p class="">Using ngAnimate style classes</p>
           </div>
 
@@ -101,7 +115,6 @@
         </timer>
     </script>
 
-    <script src="../node_modules/riot/riot+compiler.js"></script>
     <script>
     var items = [];
     for(var x=0;x<100;x++) {
