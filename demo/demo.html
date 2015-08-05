@@ -2,59 +2,114 @@
 <html>
 
 <head>
-  <title></title>
+    <title></title>
 </head>
 
 <body>
-  <timer></timer>
-  <script>
+    <timer></timer>
+    <script>
+    /**
+     * Provides requestAnimationFrame in a cross browser way.
+     * @author paulirish / http://paulirish.com/
+     */
+
+    if (!window.requestAnimationFrame) {
+
+        window.requestAnimationFrame = (function() {
+
+            return window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                window.oRequestAnimationFrame ||
+                window.msRequestAnimationFrame ||
+                function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element) {
+
+                    window.setTimeout(callback, 1000 / 60);
+
+                };
+
+        })();
+
+    }
+
+    var pfx = ["webkit", "moz", "MS", "o", ""];
+
+    function on(element, type, callback) {
+        for (var p = 0; p < pfx.length; p++) {
+            if (!pfx[p]) type = type.toLowerCase();
+            element.addEventListener(pfx[p] + type, callback, false);
+        }
+    }
+
     var OptsAnimateMixin = {
-      init: function() {
-        var self = this
+        init: function() {
+            var self = this
 
-        this.on('mount', function() {
-          console.log('mounted', this);
+            this.on('mount', function() {
+                console.log('mounted', this);
 
-          this.root.addEventListener("animationstart", function() {
-            console.log('dude the animation started');
-          }, false);
+                window.requestAnimationFrame(function() {
+                    self.root.classList.add('riot-enter');
+                });
 
-          window.requestAnimationFrame(function() {
-            self.root.classList.add('boo-ya-enter');
-          });
-          window.requestAnimationFrame(function() {
-            self.root.classList.add('boo-ya-enter-active');
-          });
-        });
+                window.requestAnimationFrame(function() {
+                    self.root.classList.add('riot-enter-active');
+                });
 
-        this.on('unmount', function() {
-          console.log('unmounted')
-          window.requestAnimationFrame(function() {
-            self.root.classList.add('boo-ya-leave');
-          });
-          window.requestAnimationFrame(function() {
-            self.root.classList.add('boo-ya-leave-active');
-          });
-        });
-      }
+                on(this.root, "AnimationEnd", function() {
+                    self.root.classList.remove('riot-enter-active');
+                    self.root.classList.remove('riot-enter');
+                }, false);
+
+            });
+
+            this.on('unmount', function() {
+
+                window.requestAnimationFrame(function() {
+                    self.root.classList.add('riot-leave');
+                });
+
+                window.requestAnimationFrame(function() {
+                    self.root.classList.add('riot-leave-active');
+                });
+
+                on(this.root, "AnimationEnd", function() {
+                    self.root.classList.remove('riot-leave-active');
+                    self.root.classList.remove('riot-leave');
+                }, false);
+
+            });
+        }
     };
-  </script>
-  <script type="riot/tag">
-    <timer ranimate>
+    </script>
+    <script type="riot/tag">
+        <timer class="fade">
+          <p>Seconds Elapsed: { time }</p>
 
-      <p>Seconds Elapsed: { time }</p>
+          this.time = opts.start || 0
 
-      this.time = opts.start || 0 tick() { this.update({ time: ++this.time }) } var timer = setInterval(this.tick, 1000) this.on('unmount', function() { clearInterval(timer) }); setTimeout(function(){ this.unmount('timer'); }.bind(this),3000); this.mixin(OptsAnimateMixin);
+          tick() {
+            this.update({ time: ++this.time })
+          }
 
-    </timer>
+          var timer = setInterval(this.tick, 1000)
 
-  </script>
-  <script src="../node_modules/riot/riot+compiler.js"></script>
-  <script>
+          this.on('unmount', function() {
+            clearInterval(timer)
+          });
+
+            setTimeout(function(){
+              this.unmount('timer');
+            }.bind(this),3000);
+
+          this.mixin(OptsAnimateMixin);
+        </timer>
+    </script>
+    <script src="../node_modules/riot/riot+compiler.js"></script>
+    <script>
     riot.mount('timer', {
-      start: 0
+        start: 0
     });
-  </script>
+    </script>
 </body>
 
 </html>
