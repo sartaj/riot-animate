@@ -14,18 +14,14 @@
         transition:0.5s linear all;
       }
 
-      .riot-enter .fade  {
-        transition:1s linear all;
+      .riot-enter .fade,
+      .riot-leave.riot-leave-active .fade  {
         opacity:0;
       }
 
       .riot-enter.riot-enter-active .fade ,
-      .fade.riot-leave {
-          opacity:1;
-      }
-
-      .riot-leave.riot-leave-active .fade {
-          opacity:0;
+      .riot-leave .fade{
+        opacity:1;
       }
 
     </style>
@@ -65,40 +61,44 @@
 
     var OptsAnimateMixin = {
         init: function() {
-            var self = this
 
             this.on('mount', function() {
-                console.log('mounted', this);
-                self.root.classList.add('riot-enter');
+
+                this.root.classList.add('riot-enter');
+
                 window.requestAnimationFrame(function() {
-                    self.root.classList.add('riot-animate');
-                    self.root.classList.add('riot-enter-active');
-                });
+                    this.root.classList.add('riot-animate');
+                    this.root.classList.add('riot-enter-active');
+                }.bind(this));
 
                 this.root.addEventListener("transitionend", function() {
-                    self.root.classList.remove('riot-enter-active');
-                    self.root.classList.remove('riot-enter');
-                    self.root.classList.remove('riot-animate');
-                }, false);
+                    this.root.classList.remove('riot-enter-active');
+                    this.root.classList.remove('riot-enter');
+                    this.root.classList.remove('riot-animate');
+                }.bind(this), false);
 
             });
 
             this.on('unmount', function() {
 
-                window.requestAnimationFrame(function() {
-                    self.root.classList.add('riot-leave');
-                });
-
-                window.requestAnimationFrame(function() {
-                    self.root.classList.add('riot-leave-active');
-                });
-
-                on(this.root, "AnimationEnd", function() {
-                    self.root.classList.remove('riot-leave-active');
-                    self.root.classList.remove('riot-leave');
-                }, false);
-
             });
+        },
+        unmountAnimated: function() {
+
+          this.root.classList.add('riot-leave');
+
+          window.requestAnimationFrame(function() {
+              this.root.classList.add('riot-animate');
+              this.root.classList.add('riot-leave-active');
+          }.bind(this));
+
+          this.root.addEventListener("transitionend", function() {
+              this.root.classList.remove('riot-leave-active');
+              this.root.classList.remove('riot-leave');
+              this.root.classList.remove('riot-animate');
+              this.unmount();
+          }.bind(this), false);
+
         }
     };
     </script>
@@ -118,9 +118,9 @@
             clearInterval(timer)
           });
 
-            // setTimeout(function(){
-            //   this.unmount('timer');
-            // }.bind(this),3000);
+            setTimeout(function(){
+              this.unmountAnimated();
+            }.bind(this),3000);
 
           this.mixin(OptsAnimateMixin);
         </timer>
