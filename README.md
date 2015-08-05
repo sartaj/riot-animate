@@ -11,58 +11,57 @@ In addition, you can easily use animate.css and use the attributes `animate`, `a
 
 ```css
 
-      .fade.riot-animate {
-        transition:0.5s linear all;
-      }
+	.fade.riot-animate {
+	transition:0.5s linear all;
+	}
 
-      .fade.riot-enter,
-      .fade.riot-leave.riot-leave-active  {
-        opacity:0;
-      }
+	.fade.riot-enter,
+	.fade.riot-leave.riot-leave-active  {
+	opacity:0;
+	}
 
-      .fade.riot-enter.riot-enter-active ,
-      .fade.riot-leave {
-        opacity:1;
-      }
+	.fade.riot-enter.riot-enter-active ,
+	.fade.riot-leave {
+	opacity:1;
+	}
 
 ```
 
 ```html
-	    <timer></timer>
+	<timer></timer>
 
-	    <script type="riot/tag">
+	<script type="riot/tag">
 
-        <timer>
-          // This is using a ngAnimate style 'enter' 'leave' css class
-          <div class="card card-fade" animate="fade" animate-duration="300ms" animate-delay="1000ms">
-            <p class="">Using ngAnimate style classes</p>
-          </div>
+	<timer>
+	  // This is using a ngAnimate style 'enter' 'leave' css class
+	  <div class="card card-fade" animate="fade" animate-duration="300ms" animate-delay="1000ms">
+	    <p class="">Using ngAnimate style classes</p>
+	  </div>
 
-          // This is using an animate.css 
-          <div class="card" each="{item, i in items}" animate="zoomIn" animate-leave="zoomOut" animate-duration="300ms" animate-delay="{i*20}ms">
-            <p class="">Using animate.css</p>
-          </div>
+	  // This is using an animate.css 
+	  <div class="card" each="{item, i in items}" animate="zoomIn" animate-leave="zoomOut" animate-duration="300ms" animate-delay="{i*20}ms">
+	    <p class="">Using animate.css</p>
+	  </div>
 
-          this.items = opts.items;
+	  this.items = opts.items;
 
-          setTimeout(function(){
-	          // Special unmount function
-            this.animatedUnmount();
-          }.bind(this),3000);
+	  setTimeout(function(){
+	      // Special unmount function
+	    this.animatedUnmount();
+	  }.bind(this),3000);
 
-          this.mixin(riotAnimate);
+	  // This is how you add animation capabilities
+	  this.mixin(riotAnimate);
 
-        </timer>
-	    </script>
+	</timer>
+	</script>
 
-	    <script>
+	<script>
 	    var items = [];
 	    for(var x=0;x<100;x++) {
 	      items.push({time: 'time'})
 	    }
-	    riot.mount('timer', {
-	        items: items
-	    });
-	    </script>
+	    riot.mount('timer', {items: items});
+	</script>
 
 ```
