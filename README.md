@@ -1,3 +1,6 @@
+[![npm status](http://img.shields.io/npm/v/riot-animate.svg)](https://www.npmjs.org/package/riot-animate)
+[![bower status](http://img.shields.io/bower/v/riot-animate.svg)]()
+
 # riot-animate - Animate Riot 2
 This riot mixin is inspired by `ngAnimate`, and provides an animation system for mounts and unmounts.
 

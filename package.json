@@ -1,6 +1,6 @@
 {
   "name": "riot-animate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Add animations to riot 2",
   "main": "riotAnimate.min.js",
   "scripts": {
