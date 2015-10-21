@@ -1,0 +1,24 @@
+{
+  "name": "riot-animate",
+  "version": "0.1.0",
+  "homepage": "https://github.com/sartaj/riot-animate",
+  "authors": [
+    "sartaj <sartaj@sartaj.me>"
+  ],
+  "description": "Add animations to riot 2.",
+  "main": "riotAnimate.min.js",
+  "keywords": [
+    "riot",
+    "animate",
+    "animations",
+    "riot2"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
