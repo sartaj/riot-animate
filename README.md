@@ -38,7 +38,7 @@ In addition, you can easily use animate.css and use the attributes `animate`, `a
     <p class="">Using ngAnimate style classes</p>
   </div>
 
-  // This is using an animate.css 
+  // This is using an animate.css
   <div class="card" each="{item, i in items}" animate="zoomIn" animate-leave="zoomOut" animate-duration="300ms" animate-delay="{i*20}ms">
     <p class="">Using animate.css</p>
   </div>
@@ -65,3 +65,5 @@ In addition, you can easily use animate.css and use the attributes `animate`, `a
 </script>
 
 ```
+## Contributing
+Not everything has been tested in extent yet. Please feel free to fork or submit an issue.

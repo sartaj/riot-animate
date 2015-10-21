@@ -1,7 +1,7 @@
 {
   "name": "riot-animate",
   "version": "0.1.0",
-  "description": "Animate Riot",
+  "description": "Add animations to riot 2",
   "main": "riotAnimate.min.js",
   "scripts": {
     "test": "",
@@ -12,8 +12,8 @@
     "type": "git",
     "url": "https://github.com/sartaj/riot-animate.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "sartaj <sartaj@sartaj.me> (http://sartaj.me)",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/sartaj/riot-animate/issues"
   },
