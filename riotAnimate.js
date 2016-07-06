@@ -66,7 +66,7 @@ var OptsAnimateMixin = {
 
 
     },
-    animatedUnmount: function() {
+    animatedUnmount: function(keepParent) {
 
         createAnimation.call(this, 'leave');
 
@@ -75,7 +75,7 @@ var OptsAnimateMixin = {
         var unmount = function(e) {
             e.target.style.visibility = 'hidden';
             if (waitFor === this.animatedDomElements.length) {
-                this.unmount();
+                this.unmount(keepParent);
             } else {
                 waitFor++;
             }
