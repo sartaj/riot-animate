@@ -76,6 +76,10 @@ var OptsAnimateMixin = {
             e.target.style.visibility = 'hidden';
             if (waitFor === this.animatedDomElements.length) {
                 this.unmount(keepParent);
+                waitFor = 0;        
+                this.root.removeEventListener("transitionend", unmount, false);
+                this.root.removeEventListener("animationend", unmount, false);
+
             } else {
                 waitFor++;
             }

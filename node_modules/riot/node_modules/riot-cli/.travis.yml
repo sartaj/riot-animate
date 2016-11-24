@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+   - "4.1"
+
+branches:
+  only:
+    - master
+
+after_success:
+  make test-coveralls
+
+before_install:
+  npm i babel pug coffee-script node-sass
+
+notifications:
+    email: false
+
+sudo: false
